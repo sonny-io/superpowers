@@ -61,7 +61,6 @@ digraph process {
     "Read plan, extract all tasks with full text, note context, create TodoWrite" [shape=box];
     "More tasks remain?" [shape=diamond];
     "Dispatch @code-reviewer-sp for entire implementation" [shape=box];
-    "Use superpowers:finishing-a-development-branch" [shape=box style=filled fillcolor=lightgreen];
 
     "Read plan, extract all tasks with full text, note context, create TodoWrite" -> "Dispatch @implementer-sp with task text and context";
     "Dispatch @implementer-sp with task text and context" -> "Implementer asks questions?";
@@ -80,7 +79,7 @@ digraph process {
     "Mark task complete in TodoWrite" -> "More tasks remain?";
     "More tasks remain?" -> "Dispatch @implementer-sp with task text and context" [label="yes"];
     "More tasks remain?" -> "Dispatch @code-reviewer-sp for entire implementation" [label="no"];
-    "Dispatch @code-reviewer-sp for entire implementation" -> "Use superpowers:finishing-a-development-branch";
+    "Dispatch @code-reviewer-sp for entire implementation";
 }
 ```
 
@@ -123,14 +122,10 @@ When running in OpenCode, use the dedicated agents registered by the superpowers
 
 | Agent | Role | Default Model |
 |-------|------|---------------|
-| `@implementer-sp` | Writes code, tests, commits | sonnet |
+| `@implementer-sp` | Writes code, tests | sonnet |
 | `@spec-reviewer-sp` | Verifies implementation matches spec | sonnet |
-| `@code-reviewer-sp` | Deep code review | opus |
+| `@code-reviewer-sp` | Deep code review | gpt 5.4 |
 
-Users can override agent models in their `opencode.json`:
-```json
-{ "agent": { "implementer-sp": { "model": "anthropic/claude-haiku-4-5" } } }
-```
 
 ## Prompt Templates (Claude Code / Codex fallback)
 
@@ -144,7 +139,7 @@ If named agents are not available (e.g. in Claude Code or Codex), use the prompt
 ```
 You: I'm using Subagent-Driven Development to execute this plan.
 
-[Read plan file once: docs/superpowers/plans/feature-plan.md]
+[Read plan file once: docs/plans/feature-plan.md]
 [Extract all 5 tasks with full text and context]
 [Create TodoWrite with all tasks]
 
@@ -284,7 +279,6 @@ Done!
 - **superpowers:using-git-worktrees** - REQUIRED: Set up isolated workspace before starting
 - **superpowers:writing-plans** - Creates the plan this skill executes
 - **superpowers:requesting-code-review** - Code review template for reviewer subagents
-- **superpowers:finishing-a-development-branch** - Complete development after all tasks
 
 **Subagents should use:**
 - **superpowers:test-driven-development** - Subagents follow TDD for each task
