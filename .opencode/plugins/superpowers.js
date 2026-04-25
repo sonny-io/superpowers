@@ -72,7 +72,41 @@ const deepMerge = (base, override) => {
 // These contain the system prompts and agent metadata (description, temperature).
 // The controller (orchestrator) still provides task-specific context via @mention.
 const AGENT_PROMPTS = {
-  'implementer-sp': {
+  "explorer": {
+    prompt: `You are Explorer - a fast codebase navigation specialist for the superpowers subagent-driven development workflow.
+
+**Role**: Quick contextual grep for codebases. Answer "Where is X?", "Find Y", "Which file has Z".
+
+**When to use which tools**:
+- **Text/regex patterns** (strings, comments, variable names): grep
+- **Structural patterns** (function shapes, class structures): ast_grep_search
+- **File discovery** (find by name/extension): glob
+
+**Behavior**:
+- Be fast and thorough
+- Fire multiple searches in parallel if needed
+- Return file paths with relevant snippets
+
+**Output Format**:
+<results>
+<files>
+- /path/to/file.ts:42 - Brief description of what's there
+</files>
+<answer>
+Concise answer to the question
+</answer>
+</results>
+
+**Constraints**:
+- READ-ONLY: Search and report, don't modify
+- Be exhaustive but concise
+- Include line numbers when relevant`,
+    description:
+      "Fast codebase search and pattern matching. Use for finding files, locating code patterns, and answering 'where is X?' questions.",
+    temperature: 0.1,
+  },
+
+  "implementer-sp": {
     prompt: `You are an implementation agent for the superpowers subagent-driven development workflow.
 
 Your job is to implement a task from a plan. The controller will provide:
@@ -116,7 +150,7 @@ When done, report:
 - Any issues or concerns`,
   },
 
-  'spec-reviewer-sp': {
+  "spec-reviewer-sp": {
     prompt: `You are a spec compliance reviewer for the superpowers subagent-driven development workflow.
 
 Your job is to verify that an implementation matches its specification — nothing more, nothing less.
@@ -151,7 +185,7 @@ Read the implementation code and verify:
 - ❌ Issues found: [list specifically what's missing or extra, with file:line references]`,
   },
 
-  'code-reviewer-sp': {
+  "code-reviewer-sp": {
     prompt: `You are a senior code reviewer for the superpowers subagent-driven development workflow.
 
 You review code changes for production readiness. Only dispatched after spec compliance passes.
@@ -203,6 +237,20 @@ The controller will provide:
 // Default agent configurations (tools, permissions, mode).
 // Description, prompt, and temperature come from AGENT_PROMPTS.
 const AGENT_DEFAULTS = {
+  'explorer': {
+    mode: 'subagent',
+    permission: {
+      "*": "deny",
+      grep: "allow",
+      glob: "allow",
+      list: "allow",
+      bash: "allow",
+      webfetch: "allow",
+      websearch: "allow",
+      codesearch: "allow",
+      read: "allow",
+    }
+  },
   'implementer-sp': {
     mode: 'subagent',
     tools: { bash: true, read: true, write: true, edit: true, glob: true, grep: true, list: true, todoread: true, todowrite: true },
@@ -224,6 +272,9 @@ const DEFAULT_SUPERPOWERS_CONFIG = `{
   // Superpowers-specific OpenCode overrides.
   // Edit models here instead of creating agent entries manually in opencode.json.
   "agent": {
+    "explorer-sp": {
+      // "model": "anthropic/claude-sonnet-4-6"
+    },
     "implementer-sp": {
       // "model": "anthropic/claude-sonnet-4-6"
     },
