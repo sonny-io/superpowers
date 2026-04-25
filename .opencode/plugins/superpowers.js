@@ -198,21 +198,21 @@ The controller will provide:
 const AGENT_DEFAULTS = {
   'implementer-sp': {
     description: 'Superpowers: implements tasks from plan following TDD. Writes code, tests, commits.',
-    model: 'anthropic/claude-sonnet-4-6',
+    // model: 'anthropic/claude-sonnet-4-6',
     mode: 'subagent',
     tools: { bash: true, read: true, write: true, edit: true, glob: true, grep: true, list: true, todoread: true, todowrite: true },
     permission: { edit: 'allow', bash: { '*': 'allow' } }
   },
   'spec-reviewer-sp': {
     description: 'Superpowers: reviews implementation against spec. Verifies completeness, catches missing/extra work.',
-    model: 'anthropic/claude-sonnet-4-6',
+    // model: 'anthropic/claude-sonnet-4-6',
     mode: 'subagent',
     tools: { read: true, glob: true, grep: true, list: true, bash: true },
     permission: { bash: { '*': 'allow' } }
   },
   'code-reviewer-sp': {
     description: 'Superpowers: deep code review — architecture, quality, security, maintainability.',
-    model: 'anthropic/claude-opus-4-6',
+    // model: 'anthropic/claude-opus-4-6',
     mode: 'subagent',
     tools: { read: true, glob: true, grep: true, list: true, bash: true },
     permission: { bash: { '*': 'allow' } }

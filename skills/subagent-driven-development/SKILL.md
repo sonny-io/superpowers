@@ -120,11 +120,11 @@ Implementer subagents report one of four statuses. Handle each appropriately:
 
 When running in OpenCode, use the dedicated agents registered by the superpowers plugin:
 
-| Agent | Role | Default Model |
-|-------|------|---------------|
-| `@implementer-sp` | Writes code, tests | sonnet |
-| `@spec-reviewer-sp` | Verifies implementation matches spec | sonnet |
-| `@code-reviewer-sp` | Deep code review | gpt 5.4 |
+| Agent | Role |
+|-------|------|
+| `@implementer-sp` | Writes code, tests |
+| `@spec-reviewer-sp` | Verifies implementation matches spec |
+| `@code-reviewer-sp` | Deep code review |
 
 
 ## Prompt Templates (Claude Code / Codex fallback)
