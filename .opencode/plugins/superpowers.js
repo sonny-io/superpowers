@@ -72,7 +72,7 @@ const deepMerge = (base, override) => {
 // These contain the system prompts and agent metadata (description, temperature).
 // The controller (orchestrator) still provides task-specific context via @mention.
 const AGENT_PROMPTS = {
-  "explorer": {
+  "explore": {
     prompt: `You are Explorer - a fast codebase navigation specialist for the superpowers subagent-driven development workflow.
 
 **Role**: Quick contextual grep for codebases. Answer "Where is X?", "Find Y", "Which file has Z".
@@ -237,7 +237,7 @@ The controller will provide:
 // Default agent configurations (tools, permissions, mode).
 // Description, prompt, and temperature come from AGENT_PROMPTS.
 const AGENT_DEFAULTS = {
-  'explorer': {
+  'explore': {
     mode: 'subagent',
     permission: {
       "*": "deny",
@@ -272,9 +272,6 @@ const DEFAULT_SUPERPOWERS_CONFIG = `{
   // Superpowers-specific OpenCode overrides.
   // Edit models here instead of creating agent entries manually in opencode.json.
   "agent": {
-    "explorer-sp": {
-      // "model": "anthropic/claude-sonnet-4-6"
-    },
     "implementer-sp": {
       // "model": "anthropic/claude-sonnet-4-6"
     },
